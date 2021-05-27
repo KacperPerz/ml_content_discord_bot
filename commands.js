@@ -2,13 +2,16 @@
 const cheerio = require('cheerio');
 const request = require('request');
 
+const pwc = require('./commands/pwc.js');
+const yt = require('./commands/yt.js');
+
+
 const URL = 'https://paperswithcode.com/';
-pwc = new Set();
+
+set = new Set(); //tided data
 request(URL, (error, response, html) => {
     const $ = cheerio.load(html);
 
-    const divs = $('.item-content');
-    const out = divs.find('h1').find('a').attr('href');
     const ac = $('a');
     links = []
     re = new RegExp('.paper/.*');
@@ -18,19 +21,22 @@ request(URL, (error, response, html) => {
             $(element).attr('href')
         );
     });
-    pwc = [... new Set(links)]
-    console.log(pwc);
+    set = [... new Set(links)]
+    console.log(set);
 });
+
+const commands = { pwc, yt };
 
 module.exports = function(msg) {
     console.log(msg.content);
-    if(msg.channel.id == '847181337910968370' && msg.content == 'pwc') {
+    if(msg.channel.id == '847181337910968370') {
+        let tokens = msg.content.split(" ");
+        let command = tokens.shift();
+        if(command.charAt(0) === "!"){
+            command = command.substring(1);
+            commands[command](msg, tokens);
+        }
 
-
-        msg.channel.send("Have you seen new paper?\n");
-        msg.channel.send('https://www.paperswithcode.com' + pwc[0]);
-        
-        
         //console.log(links);
     }
 }
