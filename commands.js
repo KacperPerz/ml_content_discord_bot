@@ -1,11 +1,6 @@
 
 const cheerio = require('cheerio');
 const request = require('request');
-
-const pwc = require('./commands/pwc.js');
-const yt = require('./commands/yt.js');
-
-
 const URL = 'https://paperswithcode.com/';
 
 set = new Set(); //tided data
@@ -25,10 +20,15 @@ request(URL, (error, response, html) => {
     console.log(set);
 });
 
+//-----------commands---------------
+const pwc = require('./commands/pwc.js');
+const yt = require('./commands/yt.js');
+
 const commands = { pwc, yt };
 
 module.exports = function(msg) {
     console.log(msg.content);
+
     if(msg.channel.id == '847181337910968370') {
         let tokens = msg.content.split(" ");
         let command = tokens.shift();
@@ -36,7 +36,5 @@ module.exports = function(msg) {
             command = command.substring(1);
             commands[command](msg, tokens);
         }
-
-        //console.log(links);
     }
 }
