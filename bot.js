@@ -1,9 +1,11 @@
+require('dotenv').config()
+
 const Discord = require('discord.js');
 const request = require('request');
 const client = new Discord.Client();
 const got = require('got');
 const cheerio = require('cheerio');
-client.login('ODQ3MTc5NTg1NTYwNzcyNjU4.YK6TeQ.NImunzIA1Q4DQVvWNOH8Dg9DP0U');
+client.login(process.env.BOTTOKEN);
 
 client.on('ready', readyDiscord);
 
